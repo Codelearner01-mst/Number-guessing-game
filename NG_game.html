@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Number Guessing Game</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    </head>
+
+    <body>
+        <!-- Start Screen -->
+        <div class="start-screen" id="start-screen">
+            <div class="start-container">
+                <h1>🎯 NUMBER GUESSING GAME</h1>
+                <div class="game-info">
+                    <p>🎲 Guess a number between 1 and 30</p>
+                    <p>⏳ You have 3 attempts to find the correct number</p>
+                    <p>💡 You'll get hints if your guess is too high or too low</p>
+                </div>
+                <div class="start-controls">
+                    <button id="start-btn" class="start-button">🚀 Start Game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Game Screen (Hidden initially) -->
+        <div class="hero-container" id="hero-container" style="display: none;">
+            <!-- Audio elements for sound effects -->
+            <audio id="correct-sound" preload="auto">
+                <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+            </audio>
+            <audio id="wrong-sound" preload="auto">
+                <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-02.wav" type="audio/wav">
+            </audio>
+            <audio id="game-over-sound" preload="auto">
+                <source src="https://www.soundjay.com/misc/sounds/fail-buzzer-01.wav" type="audio/wav">
+            </audio>
+            <audio id="button-click-sound" preload="auto">
+                <source src="https://www.soundjay.com/misc/sounds/button-09.wav" type="audio/wav">
+            </audio>
+          <h2> NUMBER GUESSING<br> GAME</h2>
+          <p>Guess a number between 1 and 30</p>
+          <div class="attempts-box">
+             <label for="attempts">⏳ Attempts Left</label>
+             <div class="attempts-display">
+               <span id="attempts">3</span>
+               <span>/ 3</span>
+              </div>
+          </div>
+          
+          <div class="score-box">
+             <label for="high-score">🏆 High Score</label>
+             <div class="score-display">
+               <span id="high-score">0</span>
+             </div>
+          </div>
+
+          <div class="guessed-input">
+             <input id="guessNumber" type="text" required>
+             <div id="sound-control" class="sound-control">
+               <label for="sound-toggle">🔊 Sound:</label>
+               <input type="checkbox" id="sound-toggle" checked>
+             </div>
+             <div class="theme-control">
+               <label for="theme-selector">🎨 Theme:</label>
+               <select id="theme-selector">
+                 <option value="default">Default</option>
+                 <option value="dark">Dark</option>
+                 <option value="neon">Neon</option>
+                 <option value="sunset">Sunset</option>
+               </select>
+             </div>
+             <div class="guess-controls">
+               <button id="quit-btn">Quit</button>
+               <button class="btn" id="btn">Guess</button>
+               <button id="restart-btn">Restart</button>
+          </div>
+         </div>
+        </div>
+    </body>
+
+    <script src="game.js"></script>
+</html>
