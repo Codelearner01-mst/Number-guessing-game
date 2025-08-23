@@ -17,7 +17,7 @@ let highScore = localStorage.getItem('numberGameHighScore') || 0;
 
 // DOM elements
 const guessBtn = document.getElementById("btn");
-const attemptsDisplay = document.getElementById("attempts");
+const updateAttemptsDisplay = document.getElementById("attempts");
 const guessInput = document.getElementById("guessNumber");
 const restartButton = document.getElementById("restart-btn");
 const quitButton = document.getElementById("quit-btn");
@@ -112,8 +112,9 @@ function updateHighScore() {
 function startGame() {
   randomNumber = Math.floor(Math.random() * 30) + 1;
   attempts = 0;
-  attemptsDisplay.textContent = maxAttempts;
+  updateAttemptsDisplay.textContent = maxAttempts;
   highScoreDisplay.textContent = highScore;
+  restartButton.textContent = "restart"
   
   // Clear ALL existing messages
   const existingMessages = document.querySelectorAll("#messageDisplay");
@@ -126,43 +127,48 @@ function startGame() {
 }
 
 // Display message
-function displayMessage(message) {
-  const messageDisplay = document.createElement("p");
-  messageDisplay.id = "messageDisplay";
-  messageDisplay.textContent = message;
-  heroContainer.appendChild(messageDisplay);
+function showMessage(message) {
+  const messageElement = document.createElement("p");
+  messageElement.id = "messageDisplay";
+  messageElement.textContent = message;
+  heroContainer.appendChild(messageElement);
   console.log("Display message:", message);
 }
 
 // Update attempts and check if game should end
 function handleGuess() {
   const input = guessInput.value.trim();
-  if (input === "") {
-    displayMessage("Please enter a number.");
+  if (input === "" || isNaN(input)) {
+    showMessage("Please enter a valid number.");
     return;
   }
 
-  const guess = parseInt(input);
-  const message = compareGuess(guess);
+  const guessedNumber = parseInt(input);
+  const feedbackMessage = compareGuess(guessedNumber);
 
-  displayMessage(message);
+  showMessage(feedbackMessage);
   attempts++;
   const attemptsLeft = maxAttempts - attempts;
-  attemptsDisplay.textContent = attemptsLeft;
+  updateAttemptsDisplay.textContent = attemptsLeft;
 
   // Play appropriate sound based on result
-  if (message.includes("Congratulations")) {
+  if (feedbackMessage.includes("Congratulations")) {
+    guessInput.value = "";
+    restartButton.textContent = "Play Again";
     playSound(correctSound);
     updateHighScore();
     addGlowEffect(heroContainer);
     createConfetti();
     endGame();
-  } else if (attempts >= maxAttempts) {
+  }
+   else if (attempts >= maxAttempts) {
     playSound(gameOverSound);
     addShakeEffect(heroContainer);
-    displayMessage(`Sorry, the correct number was ${randomNumber}.`);
+    showMessage(`Sorry, the correct number was ${randomNumber}.`);
+    restartButton.textContent = "Play Again";
     endGame();
-  } else {
+  }
+   else {
     playSound(wrongSound);
     addShakeEffect(guessInput);
   }
@@ -202,7 +208,7 @@ restartButton.addEventListener("click", () => {
 quitButton.addEventListener("click", () => {
   playSound(buttonClickSound);
   addBounceEffect(quitButton);
-  displayMessage("Game ended. Thanks for playing!");
+  showMessage("Game ended. Thanks for playing!");
   guessBtn.disabled = true;
 });
 
